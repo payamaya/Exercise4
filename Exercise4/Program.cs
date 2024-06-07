@@ -144,7 +144,6 @@ namespace SkalProj_Datastrukturer_Minne
     }
 }
 
-
 /*
  1) hur fungerar stacken och heapen? Förklara gärna med exemple eller skiss på dess grundläggande funktion
  STACK: stores value types and manages memory in a Last-In-First-Out manner.Memory is free when the method exists.
