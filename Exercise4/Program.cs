@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics.Metrics;
 using System.Drawing;
+using System.Text;
 
 namespace SkalProj_Datastrukturer_Minne
 {
@@ -111,6 +112,42 @@ namespace SkalProj_Datastrukturer_Minne
         /// </summary>
         static void ExamineQueue()
         {
+           Queue<string> theQueue = new Queue<string>();
+            while (true)
+            {
+                Console.WriteLine("Enter '+item' to enqueue or '-' to dequeue (or '0' to return to main menu):");
+                string input = Console.ReadLine()!;
+                if (input == "0") break;
+                if(input.Length < 1)
+                {
+                    Console.WriteLine("Invalid input. Please use '+' followed by the item to enqueue or '-' to dequeue.");
+                    continue;
+                }
+                char nav = input[0];    
+                string value = input.Length>1?input.Substring(1) :string.Empty;
+                switch (nav)
+                {
+                    case '+':
+                        theQueue.Enqueue(value);
+                        Console.WriteLine($"Enqueued '{value}'. Count: {theQueue.Count}");
+                        break;
+                    case '-':
+                        if (theQueue.Count > 0)
+                        {
+                            string dequeued = theQueue.Dequeue();
+                            Console.WriteLine($"Dequeued '{dequeued}'. Count: {theQueue.Count}");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Queue is empty");
+
+                        }
+                        break;
+                    default:
+                        Console.WriteLine("Please use only '+' followed by the item to enqueuer or '-' to dequeuer");
+                        break;
+                }
+            }
             /*
              * Loop this method untill the user inputs something to exit to main menue.
              * Create a switch with cases to enqueue items or dequeue items
@@ -128,6 +165,11 @@ namespace SkalProj_Datastrukturer_Minne
              * Create a switch with cases to push or pop items
              * Make sure to look at the stack after pushing and and poping to see how it behaves
             */
+
+            do
+            {
+
+            } while (true);
         }
 
         static void CheckParanthesis()
@@ -138,9 +180,67 @@ namespace SkalProj_Datastrukturer_Minne
              * Example of incorrect: (()]), [), {[()}],  List<int> list = new List<int>() { 1, 2, 3, 4 );
              */
 
+            //List<int> lista = new List<int>() {1, 2, 3, 4 };// return (4[3{1}3](2{1}2)4)
+            // (2(1)2), {1}, [3(2{1}2)3]
+
+            //Input the String:
+            Console.WriteLine("Enter a string to check:");
+            string input = Console.ReadLine()!;
+
+            bool result = IsValidParanthesis(input);
+            PrintResult(result);
+            Console.WriteLine($"The string starts and ends with a matching pair: {result}");
+
+
+            //Function to Check Validation:
+            static bool IsValidParanthesis(string input)
+            {
+                //a length must be greater than 2  to ensure that there are enough characters in the string to form a valid pair.
+                if (string.IsNullOrEmpty(input) || input.Length < 2)
+                { 
+                    return false; 
+                }
+                // Define valid pairs
+                Dictionary<char, char> validPairs = new Dictionary<char, char>()
+                {
+                    {'(',')' },
+                    {'{','}' },
+                    {'[',']' }, 
+                    {'<','>' }, 
+                };
+
+                char firstChar = input[0];
+                char lastChar = input[input.Length -1];
+
+                //check if the first charachter char has a corresponding closing charachter charand if it matches the last character
+                if(validPairs.ContainsKey(firstChar) && validPairs[firstChar]== lastChar)
+                {
+                    return true;
+                }
+
+                return false;
+            }
+
+
         }
 
+        private static void PrintResult(bool result)
+        {
+            if (result)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"The string starts and ends with a matching pair: {result}");
+            
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.WriteLine($"The string does not starts and ends with a matching pair: {result}");
+            }
+                Console.ResetColor();
+           
 
+        }
     }
 }
 
