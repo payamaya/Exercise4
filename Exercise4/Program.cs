@@ -68,22 +68,71 @@ namespace SkalProj_Datastrukturer_Minne
         static void ExamineList()
         {
             /*
-             * Loop this method untill the user inputs something to exit to main menue.
-             * Create a switch statement with cases '+' and '-'
-             * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
-             * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
+             1) Skriv klart implementationen av ExamineList-metoden så att undersökningen blir
+                genomförbar.
+               List<int> myList = new List<int>();
+
+            // Add elements to the list
+            for (int i = 0; i < 10; i++)
+            {
+                myList.Add(i);
+                Console.WriteLine($"Count: {myList.Count}, Capacity: {myList.Capacity}");
+            }
+
+            2) När ökar listans kapacitet? (Alltså den underliggande arrayens storlek)?
+            When you create a new List<int>, it starts with an initial capacity of 4 elements. This default initial capacity is chosen to balance memory overhead and performance.
+            The list's capacity increases when it needs to accommodate more elements than its current capacity allows. This usually happens when you try to add an element to the list and its Count exceeds its Capacity.
+           
+             3) Med hur mycket ökar kapaciteten?
+            When the number of elements reaches the current capacity, the list doubles its capacity by allocating a new internal array with twice the size of the current capacity.
+            The capacity typically increases by a factor or a specific amount. In .NET, the List<T> class uses a doubling strategy, where the capacity doubles every time it needs to increase.
+
+             4) Varför ökar inte listans kapacitet i samma takt som element läggs till?
+
+            The list's capacity does not increase in the same proportion as elements are added to optimize memory usage and performance. The capacity of the list increases dynamically but not necessarily in lockstep with the number of elements added, reflecting the list's efficient memory management strategy.This strategy ensures that appending elements to the list remains efficient with an amortized constant time complexity. 
+              The list's capacity does not increase at the same rate as elements are added because it would be inefficient to resize the underlying array every time an element is added. Instead, the list allows for some extra capacity to avoid frequent resizing. When the extra capacity is exhausted, the list increases its capacity.
+           
+            5) Minskar kapaciteten när element tas bort ur listan?
+
+              No, the capacity does not decrease when elements are removed from the list. Removing elements only affects the Count property, which tracks the number of elements in the list. The capacity remains unchanged unless explicitly resized.
+            After removing elements from the list, the Count property decreases, but the Capacity property remains unchanged. This behavior ensures that the list does not unnecessarily resize its internal data structure when elements are removed, improving performance and avoiding unnecessary memory allocations.
+          
+
+            6) När är det då fördelaktigt att använda en egendefinierad array istället för en lista?
+
+            It is advantageous to use a custom array instead of a list when you need precise control over memory allocation or when you know the exact size of the collection in advance. Custom arrays allow you to allocate memory efficiently without the overhead of dynamically resizing arrays. However, lists are more flexible and convenient for most scenarios, especially when the size of the collection is not known in advance or may change dynamically.
+
              * In both cases, look at the count and capacity of the list
-             * As a default case, tell them to use only + or -
+            
              * Below you can see some inspirational code to begin working.
             */
+
 
             //List<string> theList = new List<string>();
             //string input = Console.ReadLine();
             //char nav = input[0];
             //string value = input.substring(1);
 
-            //switch(nav){...}
+            List<int> myList = new List<int>();
+
+            // Add elements to the list
+            for (int i = 0; i < 10; i++)
+            {
+                myList.Add(i);
+                Console.WriteLine($"Count: {myList.Count}, Capacity: {myList.Capacity}");
+            }
+
+            Console.WriteLine("*************************");
+            for (int i = 0; i < 10; i++)
+            {
+                myList.Remove(i);
+                Console.WriteLine($"Count: {myList.Count}, Capacity: {myList.Capacity}");
+            }
+            Console.WriteLine("\nAfter removing elemnts: ");
+            Console.WriteLine($"Count: {myList.Count}, Capacity: {myList.Capacity}");
+
             List<string> theList = new List<string>();
+            //* Loop this method untill the user inputs something to exit to main menue.
             while (true)
             {
                 Console.WriteLine("Enter '{+item}' to add or '-item' to remove(or '0' to return to main menu):");
@@ -92,16 +141,22 @@ namespace SkalProj_Datastrukturer_Minne
 
                 char nav = input[0];
                 string value = Console.ReadLine()!;
+                //switch(nav){
+                /*Create a switch statement with cases '+' and '-'*/
+
                 switch (nav)
                 {
+                    // * '+': Add the rest of the input to the list (The user could write +Adam and "Adam" would be added to the list)
                     case '+':
                         theList.Add(value);
                         Console.WriteLine($"Add '{value}'. Count: {theList.Count}, Capacity:{theList.Capacity}");
                         break;
+                    //  * '-': Remove the rest of the input from the list (The user could write -Adam and "Adam" would be removed from the list)
                     case '-':
                         theList.Add(value);
                         Console.WriteLine($"Remove '{value}'. Count: {theList.Count}, Capacity: {theList.Capacity}");
                         break;
+                    // * As a default case, tell them to use only + or -
                     default:
                         Console.WriteLine("Use only '+' or '-' symbol");
                         break;
@@ -141,7 +196,7 @@ namespace SkalProj_Datastrukturer_Minne
                     + "\n2. Remove from queue (dequeue)"
                     + "\n3. Display queue"
                     + "\n4. Last in the queue"
-                    + "\n5. First in the queue" 
+                    + "\n5. First in the queue"
                     + "\n6. Total in the queue"
                     + "\n0. Exit to main menu");
                 string input = Console.ReadLine()!;
@@ -183,11 +238,11 @@ namespace SkalProj_Datastrukturer_Minne
                             DisplayQueue(queue);
                             break;
                         case '4':
-                           string LastInQueue= queue.Last();
-                           Console.WriteLine("The last perosn in the queue is " + LastInQueue);
+                            string LastInQueue = queue.Last();
+                            Console.WriteLine("The last perosn in the queue is " + LastInQueue);
                             break;
                         case '5':
-                                string FirstInQueue = queue.First();
+                            string FirstInQueue = queue.First();
                             Console.WriteLine("The fisrt perosn in the queue is " + FirstInQueue);
                             break;
                         case '6':
@@ -205,11 +260,12 @@ namespace SkalProj_Datastrukturer_Minne
                 {
                     Console.WriteLine($"Operation error : {ex.Message}");
                 }
-                catch(Exception ex) {
+                catch (Exception ex)
+                {
                     Console.WriteLine($"An unexpected error occured: {ex.Message}");
                 }
 
-            
+
             }
             static void DisplayQueue(Queue<string> queue)
             {
@@ -259,58 +315,58 @@ namespace SkalProj_Datastrukturer_Minne
             string reverseInput = ReverseText(input);
 
 
-           /* Console.WriteLine(input.Reverse()+ "Reverse()");*/
-         /*   Console.WriteLine("Original :" + input);*/
+            /* Console.WriteLine(input.Reverse()+ "Reverse()");*/
+            /*   Console.WriteLine("Original :" + input);*/
 
 
             // Print the reversed string
             Console.WriteLine("Reversed string :" + reverseInput);
 
-          /*  Stack myStack = new Stack();
+            /*  Stack myStack = new Stack();
 
-            myStack.Push("1.The");
-            myStack.Push("2.quick");
-            myStack.Push("3.brown");
-            myStack.Push("4.fox");
-            myStack.Push("5. " + ReverseText(reverseInput));
-            myStack.Push("6.Original text " + ReverseText(input));
+              myStack.Push("1.The");
+              myStack.Push("2.quick");
+              myStack.Push("3.brown");
+              myStack.Push("4.fox");
+              myStack.Push("5. " + ReverseText(reverseInput));
+              myStack.Push("6.Original text " + ReverseText(input));
 
-            foreach (var item in myStack)
-            {
-                Console.WriteLine("Print out : " + item);
-               
-            }*/
+              foreach (var item in myStack)
+              {
+                  Console.WriteLine("Print out : " + item);
+
+              }*/
         }
 
-         static string ReverseText(string text)
+        static string ReverseText(string text)
         {
-            if(string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
             {
                 return text;
             }
             // Create a stack to hold characters
             Stack<char> itemStack = new Stack<char>();
-    
+
             // Push each character of the string onto the stack
             foreach (char c in text)
             {
-              itemStack.Push(c);
-            
+                itemStack.Push(c);
+
                 /*Console.WriteLine("Executing the c in the character " + c );*/
             }
-           
+
             Console.WriteLine("******<pushing to stack>*****");
 
             // Pop characters from the stack to build the reversed string
             //Create a character array of the same length as the input string:
-            char[] reversedChar= new char[text.Length];
+            char[] reversedChar = new char[text.Length];
             for (int i = 0; i < text.Length; i++)
             {
                 reversedChar[i] = itemStack.Pop();
             }
             //converts the reversedChars array back into a string.
             return new string(reversedChar);
-        Console.WriteLine("Enter text");
+
         }
 
 
@@ -340,23 +396,23 @@ namespace SkalProj_Datastrukturer_Minne
             {
                 //a length must be greater than 2  to ensure that there are enough characters in the string to form a valid pair.
                 if (string.IsNullOrEmpty(input) || input.Length < 2)
-                { 
-                    return false; 
+                {
+                    return false;
                 }
                 // Define valid pairs
                 Dictionary<char, char> validPairs = new Dictionary<char, char>()
                 {
                     {'(',')' },
                     {'{','}' },
-                    {'[',']' }, 
-                    {'<','>' }, 
+                    {'[',']' },
+                    {'<','>' },
                 };
 
                 char firstChar = input[0];
-                char lastChar = input[input.Length -1];
+                char lastChar = input[input.Length - 1];
 
                 //check if the first charachter char has a corresponding closing charachter charand if it matches the last character
-                if(validPairs.ContainsKey(firstChar) && validPairs[firstChar]== lastChar)
+                if (validPairs.ContainsKey(firstChar) && validPairs[firstChar] == lastChar)
                 {
                     return true;
                 }
@@ -373,15 +429,15 @@ namespace SkalProj_Datastrukturer_Minne
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"The string starts and ends with a matching pair: {result}");
-            
+
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 Console.WriteLine($"The string does not starts and ends with a matching pair: {result}");
             }
-                Console.ResetColor();
-           
+            Console.ResetColor();
+
 
         }
     }
@@ -418,7 +474,7 @@ class Person
     }
 }
 
-   The stack is used for storing value types and method calls with automatic memory management, while the heap is used for dynamic memory allocation, particularly for reference types, with memory managed by the garbage collector.
+   The stack is used for storing value types and method calls with automatic memory management, while the heap is used for dynamic memory allocation, particularly for reference types, with memory managed by the garbage collector GC.
  */
 
 /*
@@ -457,36 +513,71 @@ Reference Type: MyIntx and MyIntY reference to the same object after assignment 
 
 //1) Hur fungerar stacken och heapen? Förklara gärna med exemple eller skiss på dess grundlägande funktion.
 /*
- //variables are stored on either the stack or heap, which one depends on whether the variable is of reference or value type, and on the context in which the variable is declared.
+class Program
+{
+    static void Main()
+    {
+        // 'x,y' is a value type and stored on the stack
+        int x = 10; 
+        int y = 20; 
 
-// Minnet är updelat i en stacken och HEAPEN.
-//Stacken kan ses som en mängd boxar staplade på varandra. där vi använder innehållet i den översta boxen och för att komma åt den undre måste den ovanstående boxen först lyftas av.exmpelvis stacken kan ses som skolådor i en skobutik för att komma åt den nedre lådorna måste lyftta bort de övre.
+        // 'person' is a reference type, so the reference 'person' is stored on the stack,
+        // but the actual 'Person' object is created and stored on the heap.
+        Person person = new Person("Alice");
 
-//The stack stores local variables and the heap stores reference type variables 
+        // The 'Name' property is a string (reference type), so 'Name' is stored on the heap.
+        // The reference to the string "Alice" is stored in the 'Name' property on the heap.
+        
+        Console.WriteLine($"x: {x}, y: {y}, person: {person.Name}");
+        // 'x' and 'y' values are retrieved from the stack.
+        // 'person.Name' is retrieved by first getting the reference from the stack, 
+        // then accessing the 'Person' object on the heap, and finally getting the 'Name' property value.
+    }
+}
 
-//STACKEN: har koll på vilka anrop och metoder som körs, när metoden körd kastas den från stacken och nästa körs är självunderhållande och behöver ingen hjälp med minnet.last-in, first-out,to get a plate you must take one from the top (pop), to add a plate you must add it to the top of the stack (push).The stack is a simple data structure and its two operations – push and pop – are fast and efficient. 
- STACKEN: Används för snabb minnesallokering av värdetyper och metodanrop. Minnet hanteras automatiskt.
+class Person
+{
+    public string Name { get; set; } // 'Name' is a property of reference type 'string', stored on the heap.
 
+    public Person(string name)
+    {
+        // The 'name' parameter is a reference to the string passed in, stored on the heap.
+        Name = name; // 'Name' property is assigned the reference to the string, so 'Name' points to the heap.
+    }
+}
 
-//HEAPEN är en form av struktur där allt är tillgängligt på en gång med enkel åtkomst. vi kan likna HEAPEN med en hög med ren tvätt som ligger utspridd över an säng
- Används för data som behöver existera under en längre tid 
-//HEAPEN: Håller stor del av infromationen (men inte har någne koll på exekveringordning) behöver orao sig för GARBAGE COLLECTION (GC). ALLSTÅ: skorkarongerna sköter sig själv medan tvätthögen måste renas på smutsig tvätt ibland.
-HEAPEN: any item in a heap can be accessed at any time.
-HEAPEN: Används för mer flexibel och långlivad minnesallokering av referenstyper. Minnet hanteras av garbage collectorn.
+ 
+// Variables are stored on either the stack or the heap, which one depends on whether the variable is of reference or value type, and on the context in which the variable is declared.
+
+// Memory is divided into the stack and the heap.
+// The stack can be seen as a set of boxes stacked on top of each other, where we use the contents of the topmost box and to access the one below, the box above must first be lifted off. For example, the stack can be seen as shoe boxes in a shoe store; to access the lower boxes, you must lift away the upper ones.
+
+// The stack stores local variables and the heap stores reference type variables
+
+// THE STACK: keeps track of which calls and methods are running. When a method is executed, it is thrown from the stack, and the next one runs. It is self-maintaining and needs no help with memory. Last-in, first-out; to get a plate, you must take one from the top (pop), and to add a plate, you must add it to the top of the stack (push). The stack is a simple data structure, and its two operations – push and pop – are fast and efficient.
+THE STACK: Used for fast memory allocation of value types and method calls. Memory is managed automatically.
+
+// THE HEAP is a form of structure where everything is accessible at once with easy access. We can liken the heap to a pile of clean laundry spread out over a bed.
+Used for data that needs to exist for a longer time.
+THE HEAP: Holds a large amount of information (but does not keep track of the execution order) and requires concern for garbage collection (GC). In other words: the stack maintains itself while the laundry pile must be cleaned of dirty laundry occasionally.
+THE HEAP: Any item in a heap can be accessed at any time.
+THE HEAP: Used for more flexible and long-lived memory allocation of reference types. Memory is managed by the garbage collector.
 */
 
 
 //2) Vad är value types respektive reference types och vad skiljer dem åt?
 /*
- Value Type är typer från sysem.valuetypen e.g: bool,byte,enum,int,long,unit,double
-The type of a variable – specifically whether it's a reference or value type – and the context in which it was declared, determine whether it is stored on the stack or heap.
-//A value type variable does hold the value to which it is associated.
 
-Reference types är typer som class ,interface,string, delegate, object 
-Refernce lagras alltid på HEAPEN, medan Value Types lagras där de deklareras
-//Reference type variable does not hold the value of the object it refers to, it holds a reference to that object.
+Value Types: e.g int, bool, double, struct, enum are stored directly on the stack, when we assign a value type to another , it copies the actual value. The memory are managed automatically by the system and typically fatser to access because they are stored on the stack.
+Refernce Typess: e.g class, string, array, delegate, interface are stored on the Heap, but the reference (or pointer) to the data is stored on the stack. When we assign a reference type variable to another, it copies the reference to the object, not the actual data. Both variables then point to the same object.The memory are managed by the gabrbage collecotr GC, which cleans up unused objects on the heap.
 
-A value type is a type that when declared as a variable, allocates some data at a memory address. A reference type is similar, but as its name suggests the variable in this case would instead hold a reference (memory address) to another part of memory where the memory for the data actually lives.
+Differnces: Value types are stored on the stack.
+            Value types hold the actual data.
+            Copying a value type copies the actual data.
+
+            Reference types are stored on the heap.
+            Reference types hold a reference to the data.
+            Copying a reference type copies the reference to the data, not the data itself.
 
  */
 
